@@ -1,47 +1,37 @@
 <template>
-
-  <div>
-    <button @click="count++">
-      presiona el contador: {{ count }}
-    </button>
-  </div>
-
-  <form @submit.prevent="sumarNumeros">
-    <input type="text" v-model="texto" placeholder="escribe algo">
-    <p>{{ texto }}</p> 
-    <input type="number" v-model="numero1" placeholder="numero 1">
-    <input type="number" v-model="numero2" placeholder="numero 2">
-    <button type="submit">Sumar</button>
+  <form @submit.prevent="guardarDatos">
+    <input v-model="nombre" type="text" placeholder="Nombre">
+    <input v-model="apellidos" type="text" placeholder="Apellidos">
+    <button type="submit">Guardar</button>
   </form>
 
-  <div>
-    <p>El resultado de la suma es: {{ resultado }}</p>
-  </div>
-  
+  <ul>
+    <li v-for="(item, index) in listaDatos" :key="index">
+      {{ item.nombre }} {{ item.apellidos }}
+    </li>
+  </ul>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
 
-const count = ref(0)
-const texto = ref('')
-const numero1 = ref(0)
-const numero2 = ref(0)
+const nombre = ref('')
+const apellidos = ref('')
+const listaDatos = ref([])
 
 
-const resultado = ref(0)
-
-
-const sumarNumeros = () => {
-  resultado.value = parseFloat(numero1.value) + parseFloat(numero2.value)
+const guardarDatos = () => {
+  if (nombre.value && apellidos.value) {
+    listaDatos.value.push({ nombre: nombre.value, apellidos: apellidos.value })
+    nombre.value = ''
+    apellidos.value = ''
+  }
 }
 </script>
 
 <style scoped>
-h1 {
-  color: blue;
-}
+
 
 button {
   margin: 10px 10px 10px 0px;
@@ -63,9 +53,7 @@ input {
   font-size: 14px;
 }
 
-p {
-  font-size: 14px;
-  color: grey;
-  margin: 0;
-}
+
+
+
 </style>
